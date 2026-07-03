@@ -1,0 +1,264 @@
+:root {
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --accent: #f0883e;
+  --accent-dim: #bb5a1c;
+  --green: #3fb950;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    ui-sans-serif,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+
+.site-header .logo {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.site-header .logo span {
+  color: var(--accent);
+}
+
+.nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.tab {
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.tab.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+table.board {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+table.board th,
+table.board td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+table.board th {
+  color: var(--text-dim);
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+table.board tr:last-child td {
+  border-bottom: none;
+}
+
+.rank {
+  color: var(--text-dim);
+  width: 48px;
+}
+
+.rank-1,
+.rank-2,
+.rank-3 {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cost {
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+.tokens {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-cell img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.empty {
+  padding: 48px;
+  text-align: center;
+  color: var(--text-dim);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.card .hint {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 12px 0 4px;
+}
+
+input[type='text'] {
+  width: 100%;
+  max-width: 360px;
+  padding: 8px 10px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button,
+.button {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 18px;
+  background: var(--accent);
+  color: #0d1117;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 4px 12px;
+  margin: 0;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+button.ghost:hover {
+  border-color: #f85149;
+  color: #f85149;
+}
+
+code,
+pre {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 13px;
+}
+
+pre.snippet {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.code-reveal {
+  background: #12261a;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 12px;
+  word-break: break-all;
+}
+
+.hero {
+  text-align: center;
+  padding: 60px 0 30px;
+}
+
+.hero h1 {
+  font-size: 34px;
+  margin: 0 0 8px;
+}
+
+.hero p {
+  color: var(--text-dim);
+}

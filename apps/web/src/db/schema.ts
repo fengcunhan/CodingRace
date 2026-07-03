@@ -32,6 +32,8 @@ export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   // 应用层统一转小写后写入，等价于 CITEXT 语义
   email: text('email').notNull().unique(),
+  githubId: text('github_id').unique(),
+  avatarUrl: text('avatar_url'),
   displayName: text('display_name').notNull(),
   isPublic: boolean('is_public').notNull().default(false),
   status: userStatusEnum('status').notNull().default('active'),
