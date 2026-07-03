@@ -123,8 +123,8 @@ export default async function SettingsPage() {
           <li>在终端运行生成的 npx 命令（需要 Node ≥ 18 与 Claude Code）</li>
           <li>正常使用 Claude Code，会话结束后自动上报 token 计数</li>
           <li>
-            用 <code>npx codingrace status</code> 查看队列，用{' '}
-            <code>npx codingrace uninstall</code> 干净移除
+            用 <code>npx github:fengcunhan/codingrace-plugin status</code> 查看队列，
+            <code>… uninstall</code> 干净移除
           </li>
         </ol>
         <p className="hint">

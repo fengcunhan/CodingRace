@@ -22,7 +22,8 @@ export function CreateCodeForm({ endpoint }: { endpoint: string }) {
             ⚠️ 明文只显示这一次。复制下面的命令在终端运行即可完成安装：
           </p>
           <pre className="snippet">
-            npx codingrace install --code {state.code} --endpoint {endpoint}
+            npx github:fengcunhan/codingrace-plugin install --code {state.code} --endpoint{' '}
+            {endpoint}
           </pre>
         </div>
       )}

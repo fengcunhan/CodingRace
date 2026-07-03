@@ -26,6 +26,23 @@ function formatTokens(value: number): string {
   return String(value)
 }
 
+async function loadBoard(
+  period: LeaderboardPeriod,
+  metric: LeaderboardMetric,
+  model: string | null
+): Promise<readonly [Awaited<ReturnType<typeof queryLeaderboard>>, string[]]> {
+  try {
+    const db = getDb()
+    return await Promise.all([
+      queryLeaderboard(db, { period, metric, model, now: new Date() }),
+      listActiveModels(db),
+    ])
+  } catch (error) {
+    console.error('leaderboard degraded to empty state:', error)
+    return [[], []] as const
+  }
+}
+
 function tabHref(period: string, metric: string, model?: string): string {
   const params = new URLSearchParams({ period, metric })
   if (model) params.set('model', model)
@@ -42,11 +59,8 @@ export default async function LeaderboardPage({
   const metric: LeaderboardMetric = params.metric === 'tokens' ? 'tokens' : 'cost'
   const model = params.model || null
 
-  const db = getDb()
-  const [rows, models] = await Promise.all([
-    queryLeaderboard(db, { period, metric, model, now: new Date() }),
-    listActiveModels(db),
-  ])
+  // 数据库未就绪时降级为空态，宣传引流期间不给用户看 500
+  const [rows, models] = await loadBoard(period, metric, model)
 
   return (
     <main>
