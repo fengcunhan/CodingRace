@@ -2,7 +2,8 @@
 // 以命令中的数据目录路径片段作为归属标记。
 
 export const HOOK_EVENTS = ['Stop', 'SessionEnd'] as const
-export const OWNERSHIP_MARKER = '.codingrace'
+// 用 bundle 文件名而非数据目录做归属标记：CODINGRACE_DIR 自定义路径也能被 uninstall 识别
+export const OWNERSHIP_MARKER = 'codingrace.mjs'
 
 interface HookCommand {
   type: string

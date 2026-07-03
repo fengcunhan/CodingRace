@@ -1,6 +1,6 @@
 'use server'
 
-import { and, eq } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { generateAuthCode } from '@/auth/codes'
@@ -47,6 +47,14 @@ export async function createAuthCode(
 ): Promise<CreateCodeState> {
   const user = await getSessionUser()
   if (!user) return { error: '请先登录' }
+
+  const active = await getDb()
+    .select({ id: authCodes.id })
+    .from(authCodes)
+    .where(and(eq(authCodes.userId, user.id), isNull(authCodes.revokedAt)))
+  if (active.length >= 10) {
+    return { error: '有效 auth-code 已达上限（10 个），请先吊销不再使用的' }
+  }
 
   const label = z
     .string()

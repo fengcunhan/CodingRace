@@ -11,7 +11,9 @@ function readCookie(request: Request, name: string): string | null {
   return match ? (match.split('=')[1] ?? null) : null
 }
 
-async function upsertUser(db: Db, profile: GithubProfile): Promise<string> {
+// githubId 是唯一身份键。email 撞车时绝不把已有账号 rebind 到新的 GitHub 身份——
+// GitHub 邮箱可释放后被他人验证占用，rebind 等于账号接管。
+async function upsertUser(db: Db, profile: GithubProfile): Promise<string | null> {
   const existing = await db
     .select({ id: users.id })
     .from(users)
@@ -26,6 +28,13 @@ async function upsertUser(db: Db, profile: GithubProfile): Promise<string> {
     return existing[0].id
   }
 
+  const emailTaken = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, profile.email))
+    .limit(1)
+  if (emailTaken[0]) return null
+
   const inserted = await db
     .insert(users)
     .values({
@@ -34,14 +43,10 @@ async function upsertUser(db: Db, profile: GithubProfile): Promise<string> {
       avatarUrl: profile.avatarUrl,
       displayName: profile.login,
     })
-    .onConflictDoUpdate({
-      target: users.email,
-      set: { githubId: profile.githubId, avatarUrl: profile.avatarUrl, updatedAt: new Date() },
-    })
     .returning({ id: users.id })
 
   const row = inserted[0]
-  if (!row) throw new Error('failed to upsert user')
+  if (!row) throw new Error('failed to insert user')
   return row.id
 }
 
@@ -59,6 +64,9 @@ export async function GET(request: Request): Promise<Response> {
     const origin = appOrigin(request.url)
     const profile = await fetchGithubProfile(origin, code)
     const userId = await upsertUser(getDb(), profile)
+    if (!userId) {
+      return Response.json({ error: 'email_already_linked' }, { status: 409 })
+    }
     const token = createSessionToken(userId, getAuthSecret(), new Date())
 
     const headers = new Headers({ location: `${origin}/settings` })

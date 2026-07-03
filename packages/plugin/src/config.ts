@@ -21,4 +21,10 @@ export function readConfig(): PluginConfig | null {
 
 export function writeConfig(config: PluginConfig): void {
   fs.writeFileSync(configPath(), `${JSON.stringify(config, null, 2)}\n`, { mode: 0o600 })
+  // mode 只在新建时生效，覆盖写入需显式收紧权限
+  try {
+    fs.chmodSync(configPath(), 0o600)
+  } catch {
+    // Windows 等平台忽略
+  }
 }

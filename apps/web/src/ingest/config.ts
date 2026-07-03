@@ -12,12 +12,13 @@ export const INGEST_LIMITS = {
 // 未能归一化的模型在聚合表中的占位键
 export const UNKNOWN_MODEL_KEY = 'unknown'
 
-// 生产环境缺盐直接失败（fail closed）：用公开常量做盐等于 ip_hash 可被字典反查
+// fail closed：用公开常量做盐等于 ip_hash 可被字典反查，
+// 只有明确的 development/test 环境才允许回退，NODE_ENV 缺失一律视为生产
 export function getIpHashSalt(): string {
   const salt = process.env.IP_HASH_SALT
   if (salt) return salt
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('IP_HASH_SALT must be configured in production')
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    return 'codingrace-dev-salt'
   }
-  return 'codingrace-dev-salt'
+  throw new Error('IP_HASH_SALT must be configured')
 }

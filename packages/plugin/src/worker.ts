@@ -30,7 +30,14 @@ function acquireLock(now: Date): boolean {
 }
 
 function releaseLock(): void {
-  fs.rmSync(lockPath(), { force: true })
+  try {
+    // 只释放自己持有的锁，避免误删并发 worker 抢占后的新锁
+    if (fs.readFileSync(lockPath(), 'utf8') === String(process.pid)) {
+      fs.rmSync(lockPath(), { force: true })
+    }
+  } catch {
+    // 锁已不存在
+  }
 }
 
 function sessionIdFromPath(transcriptPath: string): string {

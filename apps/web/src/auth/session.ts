@@ -3,13 +3,15 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 export const SESSION_COOKIE = 'cr_session'
 export const SESSION_TTL_SECONDS = 30 * 24 * 3600
 
+// fail closed：只有明确的 development/test 环境才允许回退开发密钥，
+// NODE_ENV 缺失一律视为生产
 export function getAuthSecret(): string {
   const secret = process.env.AUTH_SECRET
   if (secret) return secret
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('AUTH_SECRET must be configured in production')
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    return 'codingrace-dev-secret'
   }
-  return 'codingrace-dev-secret'
+  throw new Error('AUTH_SECRET must be configured')
 }
 
 interface SessionPayload {
