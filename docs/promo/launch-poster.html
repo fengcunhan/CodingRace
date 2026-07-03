@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(240,136,62,.16), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 85% 110%, rgba(63,185,80,.08), transparent 60%),
+      #0d1117;
+    font-family: -apple-system, "SF Pro Display", "PingFang SC", sans-serif;
+    color: #e6edf3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(48,54,61,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(48,54,61,.35) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black 30%, transparent 75%);
+  }
+  .badge {
+    position: relative; font-size: 22px; letter-spacing: 3px; color: #f0883e;
+    border: 1px solid rgba(240,136,62,.5); padding: 8px 22px; border-radius: 999px;
+    background: rgba(240,136,62,.08); margin-bottom: 34px; font-weight: 600;
+  }
+  h1 { position: relative; font-size: 130px; font-weight: 800; letter-spacing: -2px; }
+  h1 .race { color: #f0883e; }
+  .sub {
+    position: relative; font-size: 44px; color: #8b949e; margin: 18px 0 52px;
+    font-weight: 500;
+  }
+  .sub b { color: #e6edf3; }
+  .board {
+    position: relative; width: 860px; border: 1px solid #30363d; border-radius: 16px;
+    background: rgba(22,27,34,.92); overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  }
+  .row {
+    display: flex; align-items: center; padding: 22px 34px; font-size: 30px;
+    border-bottom: 1px solid #21262d; gap: 26px;
+  }
+  .row:last-child { border-bottom: none; }
+  .rank { width: 56px; color: #8b949e; font-weight: 700; }
+  .row.first .rank { color: #f0883e; }
+  .name { flex: 1; font-weight: 600; }
+  .row.first .name { color: #f0883e; }
+  .cost { color: #3fb950; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .dim { color: #30363d; }
+  .flame { font-size: 34px; }
+  .footer {
+    position: relative; margin-top: 54px; font-size: 28px; color: #8b949e;
+    display: flex; gap: 40px; align-items: center;
+  }
+  .footer .url { color: #f0883e; font-weight: 600; font-family: ui-monospace, Menlo, monospace; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="badge">OPEN SOURCE · CLAUDE CODE</div>
+  <h1>Coding<span class="race">Race</span></h1>
+  <div class="sub">谁烧掉了最多的 <b>Token</b>？—— AI 编程烧钱光荣榜</div>
+  <div class="board">
+    <div class="row first">
+      <span class="rank">#1</span><span class="flame">🔥</span>
+      <span class="name">虚位以待 —— 可能是你</span>
+      <span class="cost">$???.??</span>
+    </div>
+    <div class="row">
+      <span class="rank">#2</span><span class="flame" style="opacity:.35">🔥</span>
+      <span class="name dim">————</span>
+      <span class="cost dim">$——</span>
+    </div>
+    <div class="row">
+      <span class="rank">#3</span><span class="flame" style="opacity:.2">🔥</span>
+      <span class="name dim">————</span>
+      <span class="cost dim">$——</span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="url">codingrace.fengcunhan.workers.dev</span>
+    <span>只上报 token 计数 · 绝不碰你的代码</span>
+  </div>
+</body>
+</html>
