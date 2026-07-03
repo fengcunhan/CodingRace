@@ -22,6 +22,7 @@ export function checkRateLimit(
   if (!current || nowMs - current.start >= WINDOW_MS) {
     if (windows.size >= MAX_TRACKED_KEYS) {
       pruneExpired(nowMs)
+      evictOldest(MAX_TRACKED_KEYS - 1)
     }
     windows.set(key, { start: nowMs, count: 1 })
     return { allowed: true, retryAfterSeconds: 0 }
@@ -42,6 +43,14 @@ function pruneExpired(nowMs: number): void {
     if (nowMs - value.start >= WINDOW_MS) {
       windows.delete(key)
     }
+  }
+}
+
+// prune 后仍满（大量活跃 key，如轮换 code 撞库）时按插入序淘汰最旧的
+function evictOldest(target: number): void {
+  for (const key of windows.keys()) {
+    if (windows.size <= target) break
+    windows.delete(key)
   }
 }
 

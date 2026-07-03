@@ -1,11 +1,26 @@
+import { MAX_BODY_BYTES } from '@codingrace/schema'
 import { getDb } from '@/db/client'
 import { authenticate, hashAuthCode, touchAuthCode } from '@/ingest/auth'
+import { getIpHashSalt } from '@/ingest/config'
 import { processIngestBatch } from '@/ingest/process'
-import { checkRateLimit } from '@/ingest/ratelimit'
-import { requestMeta } from '@/ingest/request-meta'
+import { checkRateLimit, type RateLimitResult } from '@/ingest/ratelimit'
+import { clientIp, requestMeta } from '@/ingest/request-meta'
+
+function rateLimited(limit: RateLimitResult): Response {
+  return Response.json(
+    { error: 'rate_limited' },
+    { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } }
+  )
+}
 
 export async function POST(request: Request): Promise<Response> {
   const now = new Date()
+
+  // 协议上限 256KB，解析前先按 Content-Length 拒绝超大包
+  const contentLength = Number(request.headers.get('content-length') ?? 0)
+  if (contentLength > MAX_BODY_BYTES) {
+    return Response.json({ error: 'payload_too_large' }, { status: 413 })
+  }
 
   const header = request.headers.get('authorization')
   const token = header?.startsWith('Bearer ') ? header.slice('Bearer '.length).trim() : null
@@ -13,13 +28,14 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ error: 'missing_auth_code' }, { status: 401 })
   }
 
-  // 认证前先限流（按 code 哈希 key），无效 code 的暴力尝试也被压制
-  const limit = checkRateLimit(hashAuthCode(token), now.getTime())
-  if (!limit.allowed) {
-    return Response.json(
-      { error: 'rate_limited' },
-      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } }
-    )
+  // 认证前双重限流：按来源 IP（防轮换 code 撞库）+ 按 code 哈希（防单 code 超频）
+  const ipLimit = checkRateLimit(`ip:${clientIp(request.headers) ?? 'unknown'}`, now.getTime())
+  if (!ipLimit.allowed) {
+    return rateLimited(ipLimit)
+  }
+  const codeLimit = checkRateLimit(`code:${hashAuthCode(token)}`, now.getTime())
+  if (!codeLimit.allowed) {
+    return rateLimited(codeLimit)
   }
 
   const db = getDb()
@@ -35,14 +51,16 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ error: 'invalid_json' }, { status: 400 })
   }
 
-  const meta = requestMeta(request.headers, now, process.env.IP_HASH_SALT ?? 'codingrace-dev-salt')
-
   try {
+    const meta = requestMeta(request.headers, now, getIpHashSalt())
     const outcome = await processIngestBatch(db, { body, auth, now, ...meta })
     if (outcome.kind === 'invalid_envelope') {
       return Response.json({ error: 'invalid_envelope' }, { status: 400 })
     }
-    await touchAuthCode(db, auth.authCodeId, now)
+    // 批次已提交，last_used_at 只做尽力更新，失败不影响响应
+    await touchAuthCode(db, auth.authCodeId, now).catch((error) => {
+      console.error('touch auth code failed:', error)
+    })
     return Response.json(outcome.response)
   } catch (error) {
     console.error('ingest failed:', error)

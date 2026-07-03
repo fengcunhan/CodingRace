@@ -147,7 +147,8 @@ export const usageDailyRollups = pgTable(
     totalTokens: bigint('total_tokens', { mode: 'number' }).generatedAlwaysAs(
       sql`input_tokens + output_tokens + cache_creation_tokens + cache_read_tokens`
     ),
-    estCostUsd: numeric('est_cost_usd', { precision: 12, scale: 4 }).notNull().default('0'),
+    // scale 6：成本按事件累加，粒度必须低于最小可能的单事件成本，展示层再舍入
+    estCostUsd: numeric('est_cost_usd', { precision: 14, scale: 6 }).notNull().default('0'),
     eventsCount: integer('events_count').notNull().default(0),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
@@ -168,7 +169,7 @@ export const leaderboardSnapshots = pgTable(
     userId: uuid('user_id')
       .notNull()
       .references(() => users.id),
-    metricValue: numeric('metric_value', { precision: 16, scale: 4 }).notNull(),
+    metricValue: numeric('metric_value', { precision: 18, scale: 6 }).notNull(),
     computedAt: timestamp('computed_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [primaryKey({ columns: [t.board, t.periodType, t.periodStart, t.metric, t.rank] })]

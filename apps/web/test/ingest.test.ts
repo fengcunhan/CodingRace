@@ -116,7 +116,7 @@ describe('processIngestBatch — 主流程', () => {
     expect(rollup.cacheReadTokens).toBe(200000)
     expect(rollup.totalTokens).toBe(212000)
     // 单事件成本 (1000*2 + 2000*10 + 3000*2.5 + 100000*0.2)/1e6 = 0.0495（Sonnet 5 促销价）
-    expect(rollup.estCostUsd).toBe('0.0990')
+    expect(rollup.estCostUsd).toBe('0.099000')
     expect(rollup.eventsCount).toBe(2)
 
     const batches = await db.select().from(schema.ingestBatches)
@@ -133,7 +133,7 @@ describe('processIngestBatch — 主流程', () => {
     }
 
     const rollups = await db.select().from(schema.usageDailyRollups)
-    expect(rollups[0]!.estCostUsd).toBe('0.0990')
+    expect(rollups[0]!.estCostUsd).toBe('0.099000')
     expect(rollups[0]!.eventsCount).toBe(2)
     expect(await db.select().from(schema.usageEvents)).toHaveLength(2)
   })
@@ -229,7 +229,7 @@ describe('processIngestBatch — 主流程', () => {
 
     const rollups = await db.select().from(schema.usageDailyRollups)
     expect(rollups[0]!.modelId).toBe('unknown')
-    expect(rollups[0]!.estCostUsd).toBe('0.0000')
+    expect(rollups[0]!.estCostUsd).toBe('0.000000')
   })
 
   it('Bedrock 形态的模型 ID 归一化后按对应定价折算', async () => {
@@ -242,7 +242,7 @@ describe('processIngestBatch — 主流程', () => {
     const rollups = await db.select().from(schema.usageDailyRollups)
     expect(rollups[0]!.modelId).toBe('claude-sonnet-4-5')
     // (1000*3 + 2000*15)/1e6 = 0.033
-    expect(rollups[0]!.estCostUsd).toBe('0.0330')
+    expect(rollups[0]!.estCostUsd).toBe('0.033000')
   })
 
   it('定价生效日切换：9 月起 Sonnet 5 按标准价折算', async () => {
@@ -255,7 +255,7 @@ describe('processIngestBatch — 主流程', () => {
 
     const rollups = await db.select().from(schema.usageDailyRollups)
     // (1000*3 + 2000*15)/1e6 = 0.033（标准价），促销价应为 0.022
-    expect(rollups[0]!.estCostUsd).toBe('0.0330')
+    expect(rollups[0]!.estCostUsd).toBe('0.033000')
   })
 
   it('信封不合法（schema_version 不匹配）整批拒绝', async () => {

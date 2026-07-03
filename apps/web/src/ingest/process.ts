@@ -186,7 +186,7 @@ function toEventRow(c: Candidate, input: ProcessInput, client: ClientInfo) {
 
 async function upsertRollup(tx: Db, c: Candidate, input: ProcessInput): Promise<void> {
   const usage = c.event.usage
-  const cost = c.costUsd.toFixed(4)
+  const cost = c.costUsd.toFixed(6)
 
   await tx
     .insert(usageDailyRollups)

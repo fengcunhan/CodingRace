@@ -7,6 +7,8 @@ import { z } from 'zod'
 export const SCHEMA_VERSION = 1
 export const MAX_EVENTS_PER_BATCH = 100
 export const MAX_TOKENS_PER_EVENT = 50_000_000
+// 请求体上限（§2.1），客户端组包与服务端守卫共用
+export const MAX_BODY_BYTES = 256 * 1024
 
 export const AGENTS = ['claude_code', 'codex', 'gemini_cli', 'other'] as const
 export const agentSchema = z.enum(AGENTS)
