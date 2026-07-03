@@ -23,7 +23,8 @@ export async function GET(request: Request): Promise<Response> {
       { headers: { 'cache-control': 'public, s-maxage=60, stale-while-revalidate=300' } }
     )
   } catch (error) {
-    console.error('leaderboard query failed:', error)
-    return Response.json({ success: false, error: 'internal_error' }, { status: 500 })
+    // DB 未就绪 / 查询失败时降级为空榜，保持公开 API 契约稳定（不给 500）
+    console.error('leaderboard query failed, returning empty:', error)
+    return Response.json({ success: true, data: [] })
   }
 }

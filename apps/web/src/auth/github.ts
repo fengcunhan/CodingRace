@@ -23,6 +23,11 @@ export function appOrigin(requestUrl: string): string {
   return process.env.APP_URL?.replace(/\/+$/, '') ?? new URL(requestUrl).origin
 }
 
+// OAuth 凭据未配置时，登录入口走友好提示而非抛 500
+export function isGithubOAuthConfigured(): boolean {
+  return Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET)
+}
+
 export function authorizeUrl(origin: string, state: string): string {
   const params = new URLSearchParams({
     client_id: getGithubClientId(),
