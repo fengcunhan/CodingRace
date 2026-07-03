@@ -3,7 +3,15 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/coverage/**', '**/drizzle/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/.next/**',
+      '**/.open-next/**',
+      '**/.wrangler/**',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/drizzle/**',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

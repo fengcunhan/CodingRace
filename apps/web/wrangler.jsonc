@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "codingrace",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+  // 机密通过 wrangler secret put 配置（见 docs/deploy-cloudflare.md）：
+  //   DATABASE_URL / IP_HASH_SALT / AUTH_SECRET / GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET / APP_URL
+}
