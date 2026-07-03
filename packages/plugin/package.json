@@ -1,0 +1,26 @@
+{
+  "name": "codingrace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CodingRace reporter plugin for Claude Code — reports token usage counts only, never content",
+  "bin": {
+    "codingrace": "./dist/codingrace.mjs"
+  },
+  "scripts": {
+    "build": "esbuild src/cli.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/codingrace.mjs --banner:js='#!/usr/bin/env node'",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@codingrace/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@vitest/coverage-v8": "^4.1.9",
+    "esbuild": "^0.28.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
