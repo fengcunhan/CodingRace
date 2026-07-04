@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div
+      data-composition-id="codingrace-promo"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="18.5"
+      data-track-index="0"
+    >
+      <!-- Persistent background layer (below all scenes) -->
+      <div class="bg-layer">
+        <div class="grid"></div>
+        <div class="glow glow-a"></div>
+        <div class="glow glow-b"></div>
+        <div class="ghost">TOKENS</div>
+      </div>
+
+      <!-- SCENE 1 — brand open -->
+      <div class="scene scene-1">
+        <div class="scene-content center">
+          <div class="badge s1-badge">★ OPEN SOURCE · CLAUDE CODE</div>
+          <h1 class="logo s1-logo">Coding<span class="accent">Race</span></h1>
+          <p class="slogan s1-slogan">Who burns the most <span class="accent">tokens</span>?</p>
+        </div>
+      </div>
+
+      <!-- SCENE 2 — the leaderboard flex -->
+      <div class="scene scene-2">
+        <div class="scene-content">
+          <div class="board-title s2-title">TOKEN BURN LEADERBOARD · THIS WEEK</div>
+          <div class="board">
+            <div class="row s2-row row-1">
+              <span class="rank rank-gold">#1</span>
+              <span class="flame s2-flame">🔥</span>
+              <span class="name accent">fengcunhan</span>
+              <span class="cost" id="you-cost">$0.00</span>
+            </div>
+            <div class="row s2-row row-2">
+              <span class="rank">#2</span><span class="flame dimflame">🔥</span>
+              <span class="name">alex_dev</span><span class="cost dimcost">$184.20</span>
+            </div>
+            <div class="row s2-row row-3">
+              <span class="rank">#3</span><span class="flame dimflame">🔥</span>
+              <span class="name">jane.codes</span><span class="cost dimcost">$142.55</span>
+            </div>
+            <div class="row s2-row row-4">
+              <span class="rank">#4</span><span class="flame dimflame">🔥</span>
+              <span class="name">night_owl</span><span class="cost dimcost">$98.70</span>
+            </div>
+          </div>
+          <div class="board-foot s2-foot">Install the open-source plugin · auto-reported · just for bragging rights</div>
+        </div>
+      </div>
+
+      <!-- SCENE 3 — the data flex -->
+      <div class="scene scene-3">
+        <div class="scene-content center">
+          <div class="stat-label s3-label">BURNED THIS WEEK</div>
+          <div class="big-cost s3-cost">$296<span class="cents">.34</span></div>
+          <div class="stat-sub s3-sub">379M tokens · 6 days · Claude Code</div>
+          <div class="models s3-models">
+            <div class="model-row">
+              <span class="model-name">claude-opus-4-8</span>
+              <span class="model-track"><span class="model-bar bar-opus"></span></span>
+              <span class="model-val">$223.65</span>
+            </div>
+            <div class="model-row">
+              <span class="model-name">claude-fable-5</span>
+              <span class="model-track"><span class="model-bar bar-fable"></span></span>
+              <span class="model-val">$72.69</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4 — CTA + privacy + open source -->
+      <div class="scene scene-4">
+        <div class="scene-content center">
+          <h2 class="cta-logo s4-logo">Coding<span class="accent">Race</span></h2>
+          <div class="url s4-url">codingrace.fengcunhan.workers.dev</div>
+          <div class="cmd s4-cmd">
+            <span class="prompt">$</span> npx github:fengcunhan/codingrace-plugin install
+          </div>
+          <div class="privacy s4-privacy">
+            <span class="lock">🔒</span> Reports token counts &amp; model names only — never your code or chats
+          </div>
+          <div class="oss s4-oss">★ Server &amp; plugin fully open source · MIT · auditable</div>
+        </div>
+      </div>
+
+      <style>
+        [data-composition-id='codingrace-promo'] {
+          position: relative;
+          width: 1920px;
+          height: 1080px;
+          overflow: hidden;
+          background: #0d1117;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          color: #e6edf3;
+        }
+        [data-composition-id='codingrace-promo'] * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+        .accent {
+          color: #f0883e;
+        }
+
+        /* ---- background layer ---- */
+        [data-composition-id='codingrace-promo'] .bg-layer {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          overflow: hidden;
+        }
+        [data-composition-id='codingrace-promo'] .grid {
+          position: absolute;
+          inset: -2px;
+          background-image:
+            linear-gradient(rgba(48, 54, 61, 0.28) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(48, 54, 61, 0.28) 1px, transparent 1px);
+          background-size: 64px 64px;
+          -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 25%, transparent 78%);
+          mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 25%, transparent 78%);
+        }
+        [data-composition-id='codingrace-promo'] .glow {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(90px);
+        }
+        [data-composition-id='codingrace-promo'] .glow-a {
+          width: 900px;
+          height: 620px;
+          top: -220px;
+          left: 50%;
+          margin-left: -450px;
+          background: radial-gradient(circle, rgba(240, 136, 62, 0.28), rgba(240, 136, 62, 0) 68%);
+        }
+        [data-composition-id='codingrace-promo'] .glow-b {
+          width: 760px;
+          height: 520px;
+          bottom: -240px;
+          right: -120px;
+          background: radial-gradient(circle, rgba(63, 185, 80, 0.14), rgba(63, 185, 80, 0) 68%);
+        }
+        [data-composition-id='codingrace-promo'] .ghost {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          font-size: 520px;
+          font-weight: 900;
+          letter-spacing: 12px;
+          color: rgba(230, 237, 243, 0.03);
+          white-space: nowrap;
+        }
+
+        /* ---- scenes ---- */
+        [data-composition-id='codingrace-promo'] .scene {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          background: transparent;
+        }
+        [data-composition-id='codingrace-promo'] .scene-2,
+        [data-composition-id='codingrace-promo'] .scene-3,
+        [data-composition-id='codingrace-promo'] .scene-4 {
+          opacity: 0;
+        }
+        [data-composition-id='codingrace-promo'] .scene-content {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 120px 160px;
+          gap: 28px;
+          box-sizing: border-box;
+        }
+        [data-composition-id='codingrace-promo'] .scene-content.center {
+          align-items: center;
+          text-align: center;
+        }
+
+        /* ---- scene 1 ---- */
+        [data-composition-id='codingrace-promo'] .badge {
+          font-size: 24px;
+          letter-spacing: 4px;
+          font-weight: 600;
+          color: #f0883e;
+          border: 1px solid rgba(240, 136, 62, 0.5);
+          background: rgba(240, 136, 62, 0.08);
+          padding: 10px 26px;
+          border-radius: 999px;
+        }
+        [data-composition-id='codingrace-promo'] .logo {
+          font-size: 200px;
+          font-weight: 900;
+          letter-spacing: -4px;
+          line-height: 1;
+        }
+        [data-composition-id='codingrace-promo'] .slogan {
+          font-size: 60px;
+          font-weight: 600;
+          color: #e6edf3;
+        }
+
+        /* ---- scene 2 — leaderboard ---- */
+        [data-composition-id='codingrace-promo'] .board-title {
+          font-size: 38px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          text-align: center;
+        }
+        [data-composition-id='codingrace-promo'] .board {
+          width: 100%;
+          border: 1px solid #30363d;
+          border-radius: 20px;
+          background: rgba(22, 27, 34, 0.92);
+          overflow: hidden;
+          box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+        }
+        [data-composition-id='codingrace-promo'] .row {
+          display: flex;
+          align-items: center;
+          gap: 34px;
+          padding: 30px 44px;
+          font-size: 46px;
+          border-bottom: 1px solid #21262d;
+        }
+        [data-composition-id='codingrace-promo'] .row:last-child {
+          border-bottom: none;
+        }
+        [data-composition-id='codingrace-promo'] .row-1 {
+          background: rgba(240, 136, 62, 0.1);
+        }
+        [data-composition-id='codingrace-promo'] .rank {
+          width: 92px;
+          font-weight: 800;
+          color: #a9b4bf;
+          font-variant-numeric: tabular-nums;
+        }
+        [data-composition-id='codingrace-promo'] .rank-gold {
+          color: #f0883e;
+        }
+        [data-composition-id='codingrace-promo'] .flame {
+          width: 52px;
+          font-size: 44px;
+        }
+        [data-composition-id='codingrace-promo'] .dimflame {
+          opacity: 0.25;
+        }
+        [data-composition-id='codingrace-promo'] .name {
+          flex: 1;
+          font-weight: 600;
+          text-align: left;
+        }
+        [data-composition-id='codingrace-promo'] .cost {
+          color: #3fb950;
+          font-weight: 700;
+          font-variant-numeric: tabular-nums;
+        }
+        [data-composition-id='codingrace-promo'] .dimcost {
+          color: #7d9184;
+        }
+        [data-composition-id='codingrace-promo'] .board-foot {
+          font-size: 25px;
+          color: #a9b4bf;
+          text-align: center;
+        }
+
+        /* ---- scene 3 — data ---- */
+        [data-composition-id='codingrace-promo'] .stat-label {
+          font-size: 42px;
+          color: #a9b4bf;
+          font-weight: 600;
+          letter-spacing: 3px;
+        }
+        [data-composition-id='codingrace-promo'] .big-cost {
+          font-size: 280px;
+          font-weight: 900;
+          color: #3fb950;
+          line-height: 0.9;
+          letter-spacing: -6px;
+          font-variant-numeric: tabular-nums;
+        }
+        [data-composition-id='codingrace-promo'] .big-cost .cents {
+          font-size: 150px;
+        }
+        [data-composition-id='codingrace-promo'] .stat-sub {
+          font-size: 42px;
+          color: #e6edf3;
+          font-weight: 500;
+        }
+        [data-composition-id='codingrace-promo'] .models {
+          width: 900px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+          margin-top: 20px;
+        }
+        [data-composition-id='codingrace-promo'] .model-row {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          font-size: 30px;
+        }
+        [data-composition-id='codingrace-promo'] .model-name {
+          width: 320px;
+          text-align: left;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          color: #a9b4bf;
+          font-size: 26px;
+        }
+        [data-composition-id='codingrace-promo'] .model-track {
+          flex: 1;
+          height: 18px;
+          background: #21262d;
+          border-radius: 999px;
+          overflow: hidden;
+        }
+        [data-composition-id='codingrace-promo'] .model-bar {
+          display: block;
+          height: 100%;
+          border-radius: 999px;
+          transform-origin: left center;
+        }
+        [data-composition-id='codingrace-promo'] .bar-opus {
+          width: 100%;
+          background: #f0883e;
+        }
+        [data-composition-id='codingrace-promo'] .bar-fable {
+          width: 32%;
+          background: #d4762b;
+        }
+        [data-composition-id='codingrace-promo'] .model-val {
+          width: 140px;
+          text-align: right;
+          color: #3fb950;
+          font-weight: 700;
+          font-variant-numeric: tabular-nums;
+        }
+
+        /* ---- scene 4 — CTA ---- */
+        [data-composition-id='codingrace-promo'] .cta-logo {
+          font-size: 130px;
+          font-weight: 900;
+          letter-spacing: -3px;
+          line-height: 1;
+        }
+        [data-composition-id='codingrace-promo'] .url {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 44px;
+          color: #f0883e;
+          font-weight: 600;
+        }
+        [data-composition-id='codingrace-promo'] .cmd {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 29px;
+          color: #e6edf3;
+          background: #161b22;
+          border: 1px solid #30363d;
+          border-radius: 12px;
+          padding: 20px 32px;
+        }
+        [data-composition-id='codingrace-promo'] .cmd .prompt {
+          color: #3fb950;
+          margin-right: 12px;
+        }
+        [data-composition-id='codingrace-promo'] .privacy {
+          font-size: 31px;
+          color: #e6edf3;
+          font-weight: 500;
+        }
+        [data-composition-id='codingrace-promo'] .oss {
+          font-size: 27px;
+          color: #a9b4bf;
+        }
+      </style>
+
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {}
+        const tl = gsap.timeline({ paused: true })
+
+        // ---- ambient background (finite repeats, floor to stay within duration) ----
+        const TOTAL = 18.5
+        tl.to(
+          '.glow-a',
+          { scale: 1.18, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: Math.floor(TOTAL / 4) - 1 },
+          0
+        )
+        tl.to(
+          '.glow-b',
+          { scale: 1.22, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: Math.floor(TOTAL / 5) - 1 },
+          0
+        )
+        // ghost drift — fromTo keeps xPercent/yPercent centering (exempt from transform-conflict rule)
+        tl.fromTo(
+          '.ghost',
+          { xPercent: -50, yPercent: -50, x: -20 },
+          { x: 20, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: Math.floor(TOTAL / 9) - 1 },
+          0
+        )
+
+        // ================= SCENE 1 (0 – 4.2) =================
+        tl.from('.s1-badge', { y: 30, opacity: 0, duration: 0.5, ease: 'power2.out' }, 0.2)
+        tl.from('.s1-logo', { scale: 0.7, opacity: 0, duration: 0.7, ease: 'back.out(1.6)' }, 0.4)
+        tl.from('.s1-slogan', { y: 40, opacity: 0, duration: 0.6, ease: 'power3.out' }, 0.9)
+
+        // transition S1 -> S2 (crossfade @ 4.0)
+        tl.to('.scene-1', { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 4.0)
+        tl.to('.scene-2', { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, 4.0)
+
+        // ================= SCENE 2 (4.2 – 10.0) =================
+        tl.from('.s2-title', { y: 30, opacity: 0, duration: 0.5, ease: 'power2.out' }, 4.4)
+        tl.from(
+          '.s2-row',
+          { x: -60, opacity: 0, duration: 0.5, ease: 'power3.out', stagger: 0.12 },
+          4.6
+        )
+        tl.from('.s2-flame', { scale: 0, opacity: 0, duration: 0.5, ease: 'back.out(2.2)' }, 5.4)
+        tl.from('.s2-foot', { opacity: 0, duration: 0.5, ease: 'power1.out' }, 5.6)
+
+        // #1 cost counts up 0 -> 296.34 (deterministic, driven by timeline)
+        const counter = { v: 0 }
+        tl.to(
+          counter,
+          {
+            v: 296.34,
+            duration: 2.4,
+            ease: 'power2.out',
+            onUpdate: () => {
+              document.getElementById('you-cost').textContent = '$' + counter.v.toFixed(2)
+            },
+          },
+          5.4
+        )
+        // pulse highlight on the #1 row while counting (finite yoyo)
+        tl.to(
+          '.row-1',
+          {
+            backgroundColor: 'rgba(240,136,62,0.24)',
+            duration: 0.6,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: 3,
+          },
+          5.6
+        )
+
+        // transition S2 -> S3 (crossfade @ 9.8)
+        tl.to('.scene-2', { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 9.8)
+        tl.to('.scene-3', { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, 9.8)
+
+        // ================= SCENE 3 (10.0 – 13.8) =================
+        tl.from('.s3-label', { y: 24, opacity: 0, duration: 0.4, ease: 'power2.out' }, 10.2)
+        tl.from('.s3-cost', { scale: 0.6, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, 10.4)
+        tl.from('.s3-sub', { y: 30, opacity: 0, duration: 0.5, ease: 'power3.out' }, 10.9)
+        tl.from('.s3-models', { y: 30, opacity: 0, duration: 0.5, ease: 'power2.out' }, 11.2)
+        tl.from('.bar-opus', { scaleX: 0, duration: 0.8, ease: 'expo.out' }, 11.4)
+        tl.from('.bar-fable', { scaleX: 0, duration: 0.8, ease: 'expo.out' }, 11.6)
+
+        // transition S3 -> S4 (crossfade @ 13.6)
+        tl.to('.scene-3', { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 13.6)
+        tl.to('.scene-4', { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, 13.6)
+
+        // ================= SCENE 4 (13.8 – 18.5) =================
+        tl.from('.s4-logo', { scale: 0.8, opacity: 0, duration: 0.6, ease: 'back.out(1.5)' }, 13.9)
+        tl.from('.s4-url', { y: 30, opacity: 0, duration: 0.5, ease: 'power3.out' }, 14.3)
+        tl.from('.s4-cmd', { y: 30, opacity: 0, duration: 0.5, ease: 'power2.out' }, 14.6)
+        tl.from('.s4-privacy', { y: 24, opacity: 0, duration: 0.5, ease: 'power2.out' }, 14.9)
+        tl.from('.s4-oss', { opacity: 0, duration: 0.5, ease: 'power1.out' }, 15.2)
+
+        // final fade (allowed on last scene)
+        tl.to('.scene-4', { opacity: 0, duration: 0.6, ease: 'power2.in' }, 17.9)
+
+        window.__timelines['codingrace-promo'] = tl
+      </script>
+    </div>
+  </body>
+</html>
