@@ -1,5 +1,5 @@
 import { MAX_BODY_BYTES } from '@codingrace/schema'
-import { getDb } from '@/db/client'
+import { getDb, withTransaction } from '@/db/client'
 import { authenticate, hashAuthCode, touchAuthCode } from '@/ingest/auth'
 import { getIpHashSalt } from '@/ingest/config'
 import { processIngestBatch } from '@/ingest/process'
@@ -38,8 +38,8 @@ export async function POST(request: Request): Promise<Response> {
     return rateLimited(codeLimit)
   }
 
-  const db = getDb()
-  const auth = await authenticate(db, token)
+  // 认证用无状态读连接
+  const auth = await authenticate(getDb(), token)
   if (!auth.ok) {
     return Response.json({ error: auth.error }, { status: auth.status })
   }
@@ -53,12 +53,15 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     const meta = requestMeta(request.headers, now, getIpHashSalt())
-    const outcome = await processIngestBatch(db, { body, auth, now, ...meta })
+    // 事务用每请求独立的 WebSocket 连接，用完即关
+    const outcome = await withTransaction((db) =>
+      processIngestBatch(db, { body, auth, now, ...meta })
+    )
     if (outcome.kind === 'invalid_envelope') {
       return Response.json({ error: 'invalid_envelope' }, { status: 400 })
     }
     // 批次已提交，last_used_at 只做尽力更新，失败不影响响应
-    await touchAuthCode(db, auth.authCodeId, now).catch((error) => {
+    await touchAuthCode(getDb(), auth.authCodeId, now).catch((error) => {
       console.error('touch auth code failed:', error)
     })
     return Response.json(outcome.response)
