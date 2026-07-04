@@ -1,7 +1,19 @@
+import { spawnSync } from 'node:child_process'
 import { runHook } from './hook'
 import { runInstall, runUninstall } from './install'
+import { needsProxyEnv, reporterEnv } from './proxy'
 import { runStatus } from './status'
 import { runWorker } from './worker'
+
+// 手动 `codingrace worker` 且环境走代理时，重启自身补上 NODE_USE_ENV_PROXY
+// （该开关必须在进程启动时注入，无法运行时生效）
+function reexecWorkerWithProxy(): number {
+  const result = spawnSync(process.execPath, [process.argv[1] ?? '', 'worker'], {
+    env: reporterEnv(),
+    stdio: 'inherit',
+  })
+  return result.status ?? 0
+}
 
 const HELP = `codingrace — CodingRace reporter plugin for Claude Code
 
@@ -31,6 +43,10 @@ async function main(): Promise<void> {
       await runHook()
       return
     case 'worker':
+      if (needsProxyEnv()) {
+        process.exitCode = reexecWorkerWithProxy()
+        return
+      }
       await runWorker()
       return
     default:

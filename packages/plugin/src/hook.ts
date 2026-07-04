@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process'
 import { registerTranscript } from './cursors'
 import { ensureDirs } from './paths'
+import { reporterEnv } from './proxy'
 
 async function readStdin(): Promise<string> {
   const chunks: Buffer[] = []
@@ -16,6 +17,7 @@ function spawnDetachedWorker(): void {
   const child = spawn(process.execPath, [selfPath, 'worker'], {
     detached: true,
     stdio: 'ignore',
+    env: reporterEnv(),
   })
   child.unref()
 }
