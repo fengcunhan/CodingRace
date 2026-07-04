@@ -1,6 +1,11 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
+import { neonConfig, Pool } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-serverless'
 import * as schema from './schema'
+
+// Cloudflare Workers 无 Node TCP socket，postgres-js 无法在 workerd 连库。
+// Neon serverless 驱动走 WebSocket，在 Workers 与 Node 22（均有全局 WebSocket）下均可用，
+// 且 Pool 会话支持 drizzle 交互式事务（ingest 依赖）。
+neonConfig.webSocketConstructor = WebSocket
 
 let cached: ReturnType<typeof createDb> | undefined
 
@@ -9,15 +14,8 @@ function createDb() {
   if (!databaseUrl) {
     throw new Error('DATABASE_URL is not configured')
   }
-  // prepare:false 兼容事务模式连接池（Neon pooler / pgbouncer）；
-  // Workers 环境下保持小连接数
-  const sql = postgres(databaseUrl, {
-    prepare: false,
-    max: 5,
-    idle_timeout: 20,
-    connect_timeout: 10,
-  })
-  return drizzle(sql, { schema })
+  const pool = new Pool({ connectionString: databaseUrl })
+  return drizzle(pool, { schema })
 }
 
 export function getDb() {
