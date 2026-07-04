@@ -69,6 +69,14 @@ export default async function LeaderboardPage({
           谁烧掉了最多的 <span style={{ color: 'var(--accent)' }}>Token</span>？
         </h1>
         <p>Claude Code 用量排行榜 · 安装开源插件自动上报，只统计计数，绝不上传代码</p>
+        <a
+          className="oss-badge"
+          href="https://github.com/fengcunhan/CodingRace"
+          target="_blank"
+          rel="noopener"
+        >
+          ★ 开源于 GitHub · 代码可审计，放心使用
+        </a>
       </div>
 
       <div className="tabs">

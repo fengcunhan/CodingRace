@@ -37,6 +37,23 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             </nav>
           </header>
           {children}
+          <footer className="site-footer">
+            <div className="repos">
+              <a href="https://github.com/fengcunhan/CodingRace" target="_blank" rel="noopener">
+                ★ 主仓库（全栈开源）
+              </a>
+              <a
+                href="https://github.com/fengcunhan/codingrace-plugin"
+                target="_blank"
+                rel="noopener"
+              >
+                ★ 上报插件
+              </a>
+            </div>
+            <p className="promise">
+              完全开源 · 服务端与插件代码均可审计 · 插件只上报 token 计数与模型名，绝不读取你的代码或对话内容
+            </p>
+          </footer>
         </div>
       </body>
     </html>
